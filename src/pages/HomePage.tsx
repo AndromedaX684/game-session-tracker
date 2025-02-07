@@ -30,23 +30,32 @@ function HomePage() {
 	}, []);
 
 	return (
-		<div className="flex items-center justify-center h-screen">
+		<div className="flex flex-col items-center justify-center h-screen">
+			<h1 className="text-3xl font-bold mb-4">Game Session App!</h1>
 			<Card className="w-[350px]">
 				<CardHeader>
-					<CardTitle>Game Sessions</CardTitle>
+					<CardTitle>Previous Game Sessions</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<ul>
+					<ul className="space-y-2">
 						{gameSessions.map((session) => (
-							<li key={session.id}>
-								<Link to={`/game/${session.id}`}>{session.name}</Link>
+							<li key={session.id} className="border rounded-md p-2">
+								<Link
+									to={`/game/${session.id}`}
+									className="flex justify-between items-center"
+								>
+									<span>{session.name}</span>
+									<span>{session.date}</span>
+								</Link>
 							</li>
 						))}
 					</ul>
 					<Separator className="my-4" />
-					<Button variant="default" asChild>
-						<Link to="/create">Create New Game Session</Link>
-					</Button>
+					<div className="flex justify-center">
+						<Button variant="default" asChild>
+							<Link to="/create">Create New Game Session</Link>
+						</Button>
+					</div>
 				</CardContent>
 			</Card>
 		</div>
