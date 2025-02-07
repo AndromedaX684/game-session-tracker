@@ -62,16 +62,15 @@ export async function getGameSessionData(gameSessionId: string) {
 	};
 }
 
-export async function getLeaderboardData(gameSessionId: string) {
+export async function getLeaderboardData(gameId: string) {
+	// Note: The key is _game_session_id because your SQL function parameter is named that.
 	const { data, error } = await supabase.rpc("get_leaderboard", {
-		game_session_id: gameSessionId,
+		_game_session_id: gameId,
 	});
-
 	if (error) {
-		console.error("Error fetching leaderboard data:", error);
+		console.error("Error fetching leaderboard:", error);
 		return null;
 	}
-
 	return data;
 }
 
