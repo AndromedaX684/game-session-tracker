@@ -1,11 +1,8 @@
-import FirstPage from "@/pages/FirstPage";
+import { RouterProvider } from "react-router-dom";
+import { router } from "../routes";
 
 function App() {
-	return (
-		<>
-			<FirstPage />
-		</>
-	);
+	return <RouterProvider router={router} />;
 }
 
 export default App;
