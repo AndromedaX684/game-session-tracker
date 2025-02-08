@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { updateScore } from "../lib/supabaseFunctions";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
+import { updateScore } from "@/lib/supabaseFunctions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
-	Sheet,
-	SheetContent,
-	SheetDescription,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
+	AlertDialog,
+	AlertDialogTrigger,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogCancel,
+	AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 interface ScoreUpdateModalProps {
 	gameSessionId: string;
@@ -38,18 +41,19 @@ function ScoreUpdateModal({
 	};
 
 	return (
-		<Sheet>
-			<SheetTrigger asChild>
+		<AlertDialog>
+			<AlertDialogTrigger asChild>
 				<Button>Update Scores</Button>
-			</SheetTrigger>
-			<SheetContent className="sm:max-w-md">
-				<SheetHeader>
-					<SheetTitle>Update Scores for Round {round}</SheetTitle>
-					<SheetDescription>
+			</AlertDialogTrigger>
+			<AlertDialogContent className="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl w-full rounded-lg p-6">
+				<AlertDialogHeader>
+					<AlertDialogTitle>Update Scores for Round {round}</AlertDialogTitle>
+					<AlertDialogDescription>
 						Enter the scores for each player in this round.
-					</SheetDescription>
-				</SheetHeader>
-				<div>
+					</AlertDialogDescription>
+				</AlertDialogHeader>
+
+				<div className="space-y-2">
 					{players.map((player) => (
 						<div key={player.id}>
 							<label htmlFor={`score-${player.id}`}>{player.name}:</label>
@@ -63,9 +67,15 @@ function ScoreUpdateModal({
 						</div>
 					))}
 				</div>
-				<Button onClick={handleSubmit}>Save Scores</Button>
-			</SheetContent>
-		</Sheet>
+
+				<AlertDialogFooter>
+					<AlertDialogCancel>Cancel</AlertDialogCancel>
+					<AlertDialogAction onClick={handleSubmit}>
+						Save Scores
+					</AlertDialogAction>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
 	);
 }
 
