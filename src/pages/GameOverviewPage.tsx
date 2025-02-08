@@ -283,7 +283,6 @@ function GameOverviewPage() {
 						<LineChart
 							data={chartData}
 							options={{ maintainAspectRatio: false }}
-							redraw
 						/>
 					</CardContent>
 				</Card>
@@ -298,7 +297,6 @@ function GameOverviewPage() {
 								indexAxis: "y",
 								elements: { bar: { borderWidth: 2 } },
 							}}
-							redraw
 						/>
 					</CardContent>
 				</Card>
