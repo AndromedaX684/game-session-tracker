@@ -122,7 +122,7 @@ function ScoreUpdateModal({
 							<Input
 								type="number"
 								id={`score-${player.id}`}
-								className="w-14"
+								className="w-14 bg-accent"
 								value={scores[player.id] || ""}
 								onChange={(e) =>
 									handleScoreChange(player.id, parseInt(e.target.value))

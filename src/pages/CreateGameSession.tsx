@@ -135,6 +135,7 @@ function CreateGameSessionPage() {
 								type="text"
 								id="name"
 								value={name}
+								className="bg-accent"
 								onChange={(e) => setName(e.target.value)}
 							/>
 						</div>
@@ -144,6 +145,7 @@ function CreateGameSessionPage() {
 								type="date"
 								id="date"
 								value={date}
+								className="bg-accent"
 								onChange={(e) => setDate(e.target.value)}
 							/>
 						</div>
@@ -155,6 +157,7 @@ function CreateGameSessionPage() {
 										<Input
 											type="text"
 											value={player}
+											className="bg-accent"
 											onChange={(e) =>
 												handlePlayerChange(index, e.target.value)
 											}
@@ -164,7 +167,7 @@ function CreateGameSessionPage() {
 										<Button
 											type="button"
 											onClick={() => handleRemovePlayer(index)}
-											variant="ghost"
+											variant="destructive"
 										>
 											<Trash2 size={18} />
 										</Button>

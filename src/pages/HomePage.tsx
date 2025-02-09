@@ -50,9 +50,12 @@ function HomePage() {
 					<CardTitle>Previous Game Sessions</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<ul className="space-y-2">
+					<ul className="space-y-2 max-h-[500px] overflow-auto">
 						{sessionsToShow.map((session) => (
-							<li key={session.id} className="border rounded-md p-2">
+							<li
+								key={session.id}
+								className="border rounded-md p-4 bg-accent hover:bg-secondary"
+							>
 								<Link
 									to={`/game/${session.id}`}
 									className="flex justify-between items-center"

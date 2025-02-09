@@ -339,9 +339,11 @@ function GameOverviewPage() {
 								? players.map((player) => (
 										<div
 											key={player.id}
-											className={`flex flex-col items-center justify-center p-4 rounded-lg`}
+											className="flex flex-col items-center justify-center p-4 rounded-lg"
 										>
-											<div className="text-3xl font-bold">{player.name}</div>
+											<div className="text-3xl font-bold text-center truncate md:text-md bg-accent flex flex-col items-center justify-center p-4 rounded-lg">
+												{player.name}
+											</div>
 										</div>
 								  ))
 								: leaderboardData.slice(0, 3).map((item, index) => {
@@ -359,11 +361,11 @@ function GameOverviewPage() {
 												key={reorderedPlayers[index].player_id}
 												className={`flex flex-col items-center justify-center p-4 rounded-lg bg-accent ${heightClass}`}
 											>
-												<div className="text-2xl font-bold">
+												<div className="text-4xl break-words font-bold">
 													{index === 0 ? 2 : index === 1 ? 1 : 3}
 												</div>
 												<div
-													className="text-3xl font-bold"
+													className="text-2xl font-bold"
 													style={{
 														color:
 															playerColors[reorderedPlayers[index].player_id],
@@ -371,7 +373,7 @@ function GameOverviewPage() {
 												>
 													{reorderedPlayers[index].players.name}
 												</div>
-												<div className="flex items-center gap-2">
+												<div className="flex items-center gap-1">
 													<span>
 														{reorderedPlayers[index].total_score} points
 													</span>
@@ -411,7 +413,7 @@ function GameOverviewPage() {
 											{item.players.name}
 										</span>
 									</div>
-									<div className="flex items-center gap-2">
+									<div className="flex items-center gap-1">
 										<span>{item.total_score} points</span>
 										{rounds.length > 0 && (
 											<span
