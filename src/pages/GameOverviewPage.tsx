@@ -134,13 +134,19 @@ function GameOverviewPage() {
 		return {
 			labels: rounds.map((round) => `Round ${round}`),
 			datasets: players.map((player) => {
+				let cumulativeSum = 0; // Track cumulative score per player
 				const playerData = rounds.map((round) => {
 					const scoreEntry = scores.find(
 						(score) => score.player_id === player.id && score.round === round
 					);
-					return scoreEntry ? scoreEntry.score : 0;
+					if (scoreEntry) {
+						cumulativeSum += scoreEntry.score; // Accumulate scores
+					}
+					return cumulativeSum; // For chart data: cumulative scores
 				});
+
 				const color = playerColors[player.id];
+
 				return {
 					label: player.name,
 					data: playerData,
@@ -150,6 +156,60 @@ function GameOverviewPage() {
 			}),
 		};
 	}, [rounds, players, scores, playerColors]);
+
+	const chartOptions = {
+		maintainAspectRatio: false,
+		plugins: {
+			tooltip: {
+				callbacks: {
+					label: function (context: {
+						dataIndex: any;
+						dataset: { label: any };
+						raw: any;
+					}) {
+						const roundIndex = context.dataIndex; // Index for the current point
+						const playerId = context.dataset.label; // Player name
+						const round = rounds[roundIndex];
+
+						// Find the actual score for this round
+						const roundScore =
+							scores.find(
+								(score) =>
+									score.player_id ===
+										players.find((p) => p.name === playerId)?.id &&
+									score.round === round
+							)?.score || 0;
+
+						return `${context.dataset.label}: ${context.raw} points (Round: +${roundScore})`;
+					},
+				},
+			},
+			datalabels: {
+				align: "top", // Moves labels above the points
+				color: "#000", // Makes labels more visible
+				font: { weight: "bold" },
+				formatter: function (
+					_value: any,
+					context: { dataIndex: any; dataset: { label: any } }
+				) {
+					const roundIndex = context.dataIndex; // Index for the current point
+					const playerId = context.dataset.label; // Player name
+					const round = rounds[roundIndex];
+
+					// Get the raw score for the current round
+					const roundScore =
+						scores.find(
+							(score) =>
+								score.player_id ===
+									players.find((p) => p.name === playerId)?.id &&
+								score.round === round
+						)?.score || 0;
+
+					return `+${roundScore}`; // Display raw score for the round
+				},
+			},
+		},
+	};
 
 	// Prepare data for the BarChart (total points per player).
 	const barChartData = useMemo(() => {
@@ -308,10 +368,7 @@ function GameOverviewPage() {
 						</CardTitle>
 					</CardHeader>
 					<CardContent className="h-80">
-						<LineChart
-							data={chartData}
-							options={{ maintainAspectRatio: false }}
-						/>
+						<LineChart data={chartData} options={chartOptions} />
 					</CardContent>
 				</Card>
 
