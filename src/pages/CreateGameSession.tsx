@@ -124,7 +124,9 @@ function CreateGameSessionPage() {
 				<CardHeader>
 					<div className="flex items-center justify-between">
 						<CardTitle className="text-lg">Create Game Session</CardTitle>
-						<Button onClick={() => navigate(-1)}>Back</Button>
+						<Button variant="ghost" onClick={() => navigate(-1)}>
+							Back
+						</Button>
 					</div>
 				</CardHeader>
 				<CardContent>
@@ -153,7 +155,7 @@ function CreateGameSessionPage() {
 							<label>Players:</label>
 							<div className="space-y-2">
 								{players.map((player, index) => (
-									<div key={index} className="flex items-center">
+									<div key={index} className="flex items-center gap-2">
 										<Input
 											type="text"
 											value={player}
@@ -169,13 +171,17 @@ function CreateGameSessionPage() {
 											onClick={() => handleRemovePlayer(index)}
 											variant="destructive"
 										>
-											<Trash2 size={18} />
+											<Trash2 size={10} />
 										</Button>
 									</div>
 								))}
 							</div>
 
-							<Button type="button" onClick={handleAddPlayer} className="mt-2">
+							<Button
+								variant="secondary"
+								onClick={handleAddPlayer}
+								className="mt-2"
+							>
 								Add Player
 							</Button>
 						</div>

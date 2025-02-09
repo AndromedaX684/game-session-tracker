@@ -45,7 +45,7 @@ function HomePage() {
 	return (
 		<div className="flex flex-col items-center justify-center h-screen">
 			<h1 className="text-3xl font-bold mb-4">Game Session App!</h1>
-			<Card className="w-[350px]">
+			<Card className="w-[400px]">
 				<CardHeader>
 					<CardTitle>Previous Game Sessions</CardTitle>
 				</CardHeader>
@@ -70,7 +70,10 @@ function HomePage() {
 					{/* Toggle button to show more game sessions */}
 					{gameSessions.length > 3 && (
 						<div className="flex justify-center mt-4">
-							<Button variant="default" onClick={() => setShowMore(!showMore)}>
+							<Button
+								variant="secondary"
+								onClick={() => setShowMore(!showMore)}
+							>
 								{showMore ? "Show Less" : "Show More"}
 							</Button>
 						</div>

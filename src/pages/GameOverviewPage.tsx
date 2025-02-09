@@ -308,7 +308,9 @@ function GameOverviewPage() {
 								<CardDescription>Date: {gameSession.date}</CardDescription>
 							</div>
 							<div className="flex items-center gap-4">
-								<Button onClick={() => navigate("/")}>Back</Button>
+								<Button variant={"ghost"} onClick={() => navigate("/")}>
+									Back
+								</Button>
 								{gameId && (
 									<div>
 										<ScoreUpdateModal
@@ -453,7 +455,7 @@ function GameOverviewPage() {
 				</Card>
 
 				{/* Total Points (Bar Chart) */}
-				<Card className="flex-grow">
+				<Card className="flex-grow min-h-[400px]">
 					<CardContent className="h-full">
 						<BarChart
 							data={barChartData}
