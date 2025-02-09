@@ -23,6 +23,12 @@ function CreateGameSessionPage() {
 	const navigate = useNavigate();
 
 	const handleAddPlayer = () => {
+		// Only add player if the last player name isn't empty
+		if (players[players.length - 1].trim() === "") {
+			alert("Player name cannot be empty.");
+			return;
+		}
+
 		setPlayers((prevPlayers) => [...prevPlayers, ""]);
 
 		// Move focus to the last input field
@@ -43,7 +49,7 @@ function CreateGameSessionPage() {
 	};
 
 	const handleKeyDown = (
-		index: number,
+		_index: number,
 		e: React.KeyboardEvent<HTMLInputElement>
 	) => {
 		if (e.key === "Enter") {
@@ -65,6 +71,13 @@ function CreateGameSessionPage() {
 		if (!date) {
 			console.error("Date is required.");
 			alert("Please select a date.");
+			return;
+		}
+
+		// 🛑 Check if any player name is empty
+		if (players.some((player) => !player.trim())) {
+			console.error("All player names are required.");
+			alert("Please make sure all player names are filled.");
 			return;
 		}
 
