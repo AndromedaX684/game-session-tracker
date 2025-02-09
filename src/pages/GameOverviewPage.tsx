@@ -211,9 +211,16 @@ function GameOverviewPage() {
 						</div>
 					</CardHeader>
 					{/* Leaderboard */}
-					<CardHeader>
-						<CardTitle>Leaderboard</CardTitle>
-						<CardDescription>Top players in this game session.</CardDescription>
+					<CardHeader className="flex flex-row justify-between">
+						<div>
+							<CardTitle>Leaderboard</CardTitle>
+							<CardDescription>
+								Top players in this game session.
+							</CardDescription>
+						</div>
+						<div className="text-lg font-bold">
+							Current Round: {rounds[rounds.length - 1] || "N/A"}
+						</div>
 					</CardHeader>
 					<CardContent>
 						<div className="grid grid-cols-3 gap-4 mb-4 items-end">

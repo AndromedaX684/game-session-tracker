@@ -70,6 +70,21 @@ export async function getLeaderboardData(gameId: string) {
 	return data;
 }
 
+export async function getScoresForRound(gameSessionId: string, round: number) {
+	const { data, error } = await supabase
+		.from("Scores")
+		.select("*")
+		.eq("game_session_id", gameSessionId)
+		.eq("round", round);
+
+	if (error) {
+		console.error("Error fetching scores:", error);
+		return [];
+	}
+
+	return data;
+}
+
 export async function updateScore(
 	gameSessionId: string,
 	playerId: string,
@@ -80,7 +95,7 @@ export async function updateScore(
 		.from("Scores")
 		.upsert(
 			[{ game_session_id: gameSessionId, player_id: playerId, round, score }],
-			{ onConflict: "game_session_id, player_id, round" }
+			{ onConflict: "game_session_id,player_id,round" }
 		);
 
 	if (error) {
