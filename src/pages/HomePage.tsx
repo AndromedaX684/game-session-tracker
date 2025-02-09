@@ -54,7 +54,7 @@ function HomePage() {
 						{sessionsToShow.map((session) => (
 							<li
 								key={session.id}
-								className="border rounded-md p-4 bg-accent hover:bg-secondary"
+								className="border rounded-sm px-4 py-2 bg-accent hover:bg-secondary"
 							>
 								<Link
 									to={`/game/${session.id}`}
