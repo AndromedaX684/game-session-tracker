@@ -27,17 +27,48 @@ function ScoreUpdateModal({
 }: ScoreUpdateModalProps) {
 	const [round, setRound] = useState(1);
 	const [scores, setScores] = useState<{ [playerId: string]: number }>({});
+	const [errorMessage, setErrorMessage] = useState<string | null>(null); // To show error messages
 
 	const handleScoreChange = (playerId: string, score: number) => {
 		setScores({ ...scores, [playerId]: score });
 	};
 
+	// Handle submit function
 	const handleSubmit = async () => {
-		for (const playerId in scores) {
-			await updateScore(gameSessionId, playerId, round, scores[playerId]);
-		}
+		try {
+			// Check if scores are empty
+			if (Object.keys(scores).length === 0) {
+				setErrorMessage("Please enter scores for all players.");
+				return;
+			}
 
-		onScoresUpdated();
+			// Update the scores for each player
+			for (const playerId in scores) {
+				await updateScore(gameSessionId, playerId, round, scores[playerId]);
+			}
+
+			// Reset error and call the onScoresUpdated callback
+			setErrorMessage(null);
+			onScoresUpdated();
+		} catch (error) {
+			// Catch any error and display it
+			setErrorMessage(
+				"There was an error saving the scores. Please try again."
+			);
+			console.error("Error during score submission:", error);
+		}
+	};
+
+	const handleEnterKeyPress = (
+		e: React.KeyboardEvent<HTMLInputElement>,
+		index: number
+	) => {
+		if (e.key === "Enter") {
+			const nextInput = document.querySelectorAll("input")[index + 1];
+			if (nextInput) {
+				(nextInput as HTMLElement).focus();
+			}
+		}
 	};
 
 	return (
@@ -53,20 +84,31 @@ function ScoreUpdateModal({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 
-				<div className="space-y-2">
-					{players.map((player) => (
-						<div key={player.id}>
-							<label htmlFor={`score-${player.id}`}>{player.name}:</label>
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+					{players.map((player, index) => (
+						<div key={player.id} className="flex flex-col items-center">
+							<label htmlFor={`score-${player.id}`} className="mb-2">
+								{player.name}:
+							</label>
 							<Input
 								type="number"
 								id={`score-${player.id}`}
+								className="w-14"
 								onChange={(e) =>
 									handleScoreChange(player.id, parseInt(e.target.value))
 								}
+								onKeyDown={(e) => handleEnterKeyPress(e, index)}
+								style={{
+									appearance: "none", // Ensure no arrows appear
+									WebkitAppearance: "none", // For webkit browsers
+									MozAppearance: "textfield", // For Firefox
+								}}
 							/>
 						</div>
 					))}
 				</div>
+
+				{errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>

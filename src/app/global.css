@@ -4,271 +4,349 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-	/* General UI Colors */
-	--color-background: hsl(var(--background)); /* Main background color */
-	--color-foreground: hsl(var(--foreground)); /* Main text color */
+  /* General UI Colors */
+  --color-background: hsl(var(--background));
+  /* Main background color */
+  --color-foreground: hsl(var(--foreground));
+  /* Main text color */
 
-	--color-border: hsl(var(--border)); /* Default border color */
-	--color-input: hsl(var(--input)); /* Input field border/background color */
-	--color-ring: hsl(var(--ring)); /* Focus ring color for elements */
+  --color-border: hsl(var(--border));
+  /* Default border color */
+  --color-input: hsl(var(--input));
+  /* Input field border/background color */
+  --color-ring: hsl(var(--ring));
+  /* Focus ring color for elements */
 
-	/* Interactive Elements */
-	--color-primary: hsl(
-		var(--primary)
-	); /* Primary color for buttons, highlights, etc. */
-	--color-primary-foreground: hsl(
-		var(--primary-foreground)
-	); /* Text color when using the primary background */
+  /* Interactive Elements */
+  --color-primary: hsl(var(--primary));
+  /* Primary color for buttons, highlights, etc. */
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  /* Text color when using the primary background */
 
-	--color-secondary: hsl(
-		var(--secondary)
-	); /* Secondary background color (lighter than primary) */
-	--color-secondary-foreground: hsl(
-		var(--secondary-foreground)
-	); /* Text color for secondary elements */
+  --color-secondary: hsl(var(--secondary));
+  /* Secondary background color (lighter than primary) */
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  /* Text color for secondary elements */
 
-	--color-muted: hsl(
-		var(--muted)
-	); /* Muted background color (for subtle UI elements) */
-	--color-muted-foreground: hsl(
-		var(--muted-foreground)
-	); /* Text color for muted elements */
+  --color-muted: hsl(var(--muted));
+  /* Muted background color (for subtle UI elements) */
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  /* Text color for muted elements */
 
-	--color-accent: hsl(
-		var(--accent)
-	); /* Accent color for interactive elements */
-	--color-accent-foreground: hsl(
-		var(--accent-foreground)
-	); /* Text color for accent elements */
+  --color-accent: hsl(var(--accent));
+  /* Accent color for interactive elements */
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  /* Text color for accent elements */
 
-	--color-destructive: hsl(
-		var(--destructive)
-	); /* Destructive action color (e.g., delete button) */
-	--color-destructive-foreground: hsl(
-		var(--destructive-foreground)
-	); /* Text color for destructive elements */
+  --color-destructive: hsl(var(--destructive));
+  /* Destructive action color (e.g., delete button) */
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  /* Text color for destructive elements */
 
-	/* Data Visualization */
-	--color-chart-1: hsl(var(--chart-1)); /* First chart color */
-	--color-chart-2: hsl(var(--chart-2)); /* Second chart color */
-	--color-chart-3: hsl(var(--chart-3)); /* Third chart color */
-	--color-chart-4: hsl(var(--chart-4)); /* Fourth chart color */
-	--color-chart-5: hsl(var(--chart-5)); /* Fifth chart color */
+  /* Data Visualization */
+  --color-chart-1: hsl(var(--chart-1));
+  /* First chart color */
+  --color-chart-2: hsl(var(--chart-2));
+  /* Second chart color */
+  --color-chart-3: hsl(var(--chart-3));
+  /* Third chart color */
+  --color-chart-4: hsl(var(--chart-4));
+  /* Fourth chart color */
+  --color-chart-5: hsl(var(--chart-5));
+  /* Fifth chart color */
 
-	/* Component-Specific Colors */
-	--color-card: hsl(var(--card)); /* Background color for cards */
-	--color-card-foreground: hsl(
-		var(--card-foreground)
-	); /* Text color for cards */
+  /* Component-Specific Colors */
+  --color-card: hsl(var(--card));
+  /* Background color for cards */
+  --color-card-foreground: hsl(var(--card-foreground));
+  /* Text color for cards */
 
-	--color-popover: hsl(var(--popover)); /* Background color for popovers */
-	--color-popover-foreground: hsl(
-		var(--popover-foreground)
-	); /* Text color for popovers */
+  --color-popover: hsl(var(--popover));
+  /* Background color for popovers */
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  /* Text color for popovers */
 
-	--color-sidebar: hsl(
-		var(--sidebar-background)
-	); /* Sidebar background color */
-	--color-sidebar-foreground: hsl(
-		var(--sidebar-foreground)
-	); /* Sidebar text color */
-	--color-sidebar-primary: hsl(
-		var(--sidebar-primary)
-	); /* Primary color for sidebar elements */
-	--color-sidebar-primary-foreground: hsl(
-		var(--sidebar-primary-foreground)
-	); /* Text color for primary sidebar elements */
-	--color-sidebar-accent: hsl(
-		var(--sidebar-accent)
-	); /* Accent color in sidebar */
-	--color-sidebar-accent-foreground: hsl(
-		var(--sidebar-accent-foreground)
-	); /* Text color for sidebar accents */
-	--color-sidebar-border: hsl(
-		var(--sidebar-border)
-	); /* Border color for sidebar */
-	--color-sidebar-ring: hsl(
-		var(--sidebar-ring)
-	); /* Focus ring color for sidebar elements */
+  --color-sidebar: hsl(var(--sidebar-background));
+  /* Sidebar background color */
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  /* Sidebar text color */
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  /* Primary color for sidebar elements */
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  /* Text color for primary sidebar elements */
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  /* Accent color in sidebar */
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  /* Text color for sidebar accents */
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  /* Border color for sidebar */
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  /* Focus ring color for sidebar elements */
 
-	/* Layout Elements */
-	--radius-lg: var(--radius); /* Large border radius */
-	--radius-md: calc(var(--radius) - 2px); /* Medium border radius */
-	--radius-sm: calc(var(--radius) - 4px); /* Small border radius */
+  /* Layout Elements */
+  --radius-lg: var(--radius);
+  /* Large border radius */
+  --radius-md: calc(var(--radius) - 2px);
+  /* Medium border radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  /* Small border radius */
 
-	/* Animations */
-	--animate-accordion-down: accordion-down 0.2s ease-out; /* Accordion open animation */
-	--animate-accordion-up: accordion-up 0.2s ease-out; /* Accordion close animation */
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  /* Accordion open animation */
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  /* Accordion close animation */
 
-	@keyframes accordion-down {
-		from {
-			height: 0;
-		}
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
 
-		to {
-			height: var(--radix-accordion-content-height);
-		}
-	}
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
 
-	@keyframes accordion-up {
-		from {
-			height: var(--radix-accordion-content-height);
-		}
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
 
-		to {
-			height: 0;
-		}
-	}
+    to {
+      height: 0;
+    }
+  }
 }
 
 @layer base {
-	*,
-	::after,
-	::before,
-	::backdrop,
-	::file-selector-button {
-		border-color: var(--color-border, currentColor);
-	}
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
+
   :root {
-		--sidebar-background: 0 0% 98%;
-		--sidebar-foreground: 240 5.3% 26.1%;
-		--sidebar-primary: 240 5.9% 10%;
-		--sidebar-primary-foreground: 0 0% 98%;
-		--sidebar-accent: 240 4.8% 95.9%;
-		--sidebar-accent-foreground: 240 5.9% 10%;
-		--sidebar-border: 220 13% 91%;
-		--sidebar-ring: 217.2 91.2% 59.8%;
-	}
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
   .dark {
-		--sidebar-background: 240 5.9% 10%;
-		--sidebar-foreground: 240 4.8% 95.9%;
-		--sidebar-primary: 224.3 76.3% 48%;
-		--sidebar-primary-foreground: 0 0% 100%;
-		--sidebar-accent: 240 3.7% 15.9%;
-		--sidebar-accent-foreground: 240 4.8% 95.9%;
-		--sidebar-border: 240 3.7% 15.9%;
-		--sidebar-ring: 217.2 91.2% 59.8%;
-	}
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
 
 @layer base {
-	* {
-		@apply border-border;
-	}
+  * {
+    @apply border-border;
+  }
 
-	body {
-		@apply bg-background text-foreground;
-	}
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @layer utilities {
-	body {
-		font-family: Arial, Helvetica, sans-serif;
-	}
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+/* For Webkit-based browsers (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 @layer base {
-	:root {
-		/* General UI Colors */
-		--background: 0 0% 100%; /* Main background color */
-		--foreground: 0 0% 3.9%; /* Main text color */
+  :root {
+    /* General UI Colors */
+    --background: 0 0% 100%;
+    /* Main background color */
+    --foreground: 0 0% 3.9%;
+    /* Main text color */
 
-		--border: 0 0% 89.8%; /* Default border color */
-		--input: 0 0% 89.8%; /* Input field border/background color */
+    --border: 0 0% 89.8%;
+    /* Default border color */
+    --input: 0 0% 89.8%;
+    /* Input field border/background color */
 
-		/* Interactive Elements */
-		--primary: 0 0% 9%; /* Primary color for buttons, highlights, etc. */
-		--primary-foreground: 0 0% 98%; /* Text color when using the primary background */
+    /* Interactive Elements */
+    --primary: 0 0% 9%;
+    /* Primary color for buttons, highlights, etc. */
+    --primary-foreground: 0 0% 98%;
+    /* Text color when using the primary background */
 
-		--secondary: 0 0% 96.1%; /* Secondary background color (lighter than primary) */
-		--secondary-foreground: 0 0% 9%; /* Text color for secondary elements */
+    --secondary: 0 0% 96.1%;
+    /* Secondary background color (lighter than primary) */
+    --secondary-foreground: 0 0% 9%;
+    /* Text color for secondary elements */
 
-		--muted: 0 0% 96.1%; /* Muted background color (for subtle UI elements) */
-		--muted-foreground: 0 0% 45.1%; /* Text color for muted elements */
+    --muted: 0 0% 96.1%;
+    /* Muted background color (for subtle UI elements) */
+    --muted-foreground: 0 0% 45.1%;
+    /* Text color for muted elements */
 
-		--accent: 0 0% 96.1%; /* Accent color for interactive elements */
-		--accent-foreground: 0 0% 9%; /* Text color for accent elements */
+    --accent: 0 0% 96.1%;
+    /* Accent color for interactive elements */
+    --accent-foreground: 0 0% 9%;
+    /* Text color for accent elements */
 
-		--destructive: 0 84.2% 60.2%; /* Destructive action color (e.g., delete button) */
-		--destructive-foreground: 0 0% 98%; /* Text color for destructive elements */
+    --destructive: 0 84.2% 60.2%;
+    /* Destructive action color (e.g., delete button) */
+    --destructive-foreground: 0 0% 98%;
+    /* Text color for destructive elements */
 
-		/* Layout Elements */
-		--radius: 0.5rem; /* Default border radius for rounded elements */
-		--ring: 0 0% 3.9%; /* Focus ring color for elements */
+    /* Layout Elements */
+    --radius: 0.5rem;
+    /* Default border radius for rounded elements */
+    --ring: 0 0% 3.9%;
+    /* Focus ring color for elements */
 
-		/* Data Visualization */
-		--chart-1: 12 76% 61%; /* First chart color */
-		--chart-2: 173 58% 39%; /* Second chart color */
-		--chart-3: 197 37% 24%; /* Third chart color */
-		--chart-4: 43 74% 66%; /* Fourth chart color */
-		--chart-5: 27 87% 67%; /* Fifth chart color */
+    /* Data Visualization */
+    --chart-1: 12 76% 61%;
+    /* First chart color */
+    --chart-2: 173 58% 39%;
+    /* Second chart color */
+    --chart-3: 197 37% 24%;
+    /* Third chart color */
+    --chart-4: 43 74% 66%;
+    /* Fourth chart color */
+    --chart-5: 27 87% 67%;
+    /* Fifth chart color */
 
-		/* Component-Specific Colors */
-		--card: 0 0% 100%; /* Background color for cards */
-		--card-foreground: 0 0% 3.9%; /* Text color for cards */
+    /* Component-Specific Colors */
+    --card: 0 0% 100%;
+    /* Background color for cards */
+    --card-foreground: 0 0% 3.9%;
+    /* Text color for cards */
 
-		--popover: 0 0% 100%; /* Background color for popovers */
-		--popover-foreground: 0 0% 3.9%; /* Text color for popovers */
+    --popover: 0 0% 100%;
+    /* Background color for popovers */
+    --popover-foreground: 0 0% 3.9%;
+    /* Text color for popovers */
 
-		--sidebar-background: 0 0% 98%; /* Sidebar background color */
-		--sidebar-foreground: 240 5.3% 26.1%; /* Sidebar text color */
-		--sidebar-primary: 240 5.9% 10%; /* Primary color for sidebar elements */
-		--sidebar-primary-foreground: 0 0% 98%; /* Text color for primary sidebar elements */
-		--sidebar-accent: 240 4.8% 95.9%; /* Accent color in sidebar */
-		--sidebar-accent-foreground: 240 5.9% 10%; /* Text color for sidebar accents */
-		--sidebar-border: 220 13% 91%; /* Border color for sidebar */
-		--sidebar-ring: 217.2 91.2% 59.8%; /* Focus ring color for sidebar elements */
-	}
+    --sidebar-background: 0 0% 98%;
+    /* Sidebar background color */
+    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Sidebar text color */
+    --sidebar-primary: 240 5.9% 10%;
+    /* Primary color for sidebar elements */
+    --sidebar-primary-foreground: 0 0% 98%;
+    /* Text color for primary sidebar elements */
+    --sidebar-accent: 240 4.8% 95.9%;
+    /* Accent color in sidebar */
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    /* Text color for sidebar accents */
+    --sidebar-border: 220 13% 91%;
+    /* Border color for sidebar */
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Focus ring color for sidebar elements */
+  }
 
-	.dark {
-		/* General UI Colors */
-		--background: 0 0% 3.9%; /* Main background color */
-		--foreground: 0 0% 98%; /* Main text color */
+  .dark {
+    /* General UI Colors */
+    --background: 0 0% 3.9%;
+    /* Main background color */
+    --foreground: 0 0% 98%;
+    /* Main text color */
 
-		--border: 0 0% 14.9%; /* Default border color */
-		--input: 0 0% 14.9%; /* Input field border/background color */
+    --border: 0 0% 14.9%;
+    /* Default border color */
+    --input: 0 0% 14.9%;
+    /* Input field border/background color */
 
-		/* Interactive Elements */
-		--primary: 0 0% 98%; /* Primary color for buttons, highlights, etc. */
-		--primary-foreground: 0 0% 9%; /* Text color when using the primary background */
+    /* Interactive Elements */
+    --primary: 0 0% 98%;
+    /* Primary color for buttons, highlights, etc. */
+    --primary-foreground: 0 0% 9%;
+    /* Text color when using the primary background */
 
-		--secondary: 0 0% 14.9%; /* Secondary background color (darker than primary) */
-		--secondary-foreground: 0 0% 98%; /* Text color for secondary elements */
+    --secondary: 0 0% 14.9%;
+    /* Secondary background color (darker than primary) */
+    --secondary-foreground: 0 0% 98%;
+    /* Text color for secondary elements */
 
-		--muted: 0 0% 14.9%; /* Muted background color (for subtle UI elements) */
-		--muted-foreground: 0 0% 63.9%; /* Text color for muted elements */
+    --muted: 0 0% 14.9%;
+    /* Muted background color (for subtle UI elements) */
+    --muted-foreground: 0 0% 63.9%;
+    /* Text color for muted elements */
 
-		--accent: 0 0% 14.9%; /* Accent color for interactive elements */
-		--accent-foreground: 0 0% 98%; /* Text color for accent elements */
+    --accent: 0 0% 14.9%;
+    /* Accent color for interactive elements */
+    --accent-foreground: 0 0% 98%;
+    /* Text color for accent elements */
 
-		--destructive: 0 62.8% 30.6%; /* Destructive action color (e.g., delete button) */
-		--destructive-foreground: 0 0% 98%; /* Text color for destructive elements */
+    --destructive: 0 62.8% 30.6%;
+    /* Destructive action color (e.g., delete button) */
+    --destructive-foreground: 0 0% 98%;
+    /* Text color for destructive elements */
 
-		/* Layout Elements */
-		--radius: 0.5rem; /* Default border radius for rounded elements */
-		--ring: 0 0% 83.1%; /* Focus ring color for elements */
+    /* Layout Elements */
+    --radius: 0.5rem;
+    /* Default border radius for rounded elements */
+    --ring: 0 0% 83.1%;
+    /* Focus ring color for elements */
 
-		/* Data Visualization */
-		--chart-1: 220 70% 50%; /* First chart color */
-		--chart-2: 160 60% 45%; /* Second chart color */
-		--chart-3: 30 80% 55%; /* Third chart color */
-		--chart-4: 280 65% 60%; /* Fourth chart color */
-		--chart-5: 340 75% 55%; /* Fifth chart color */
+    /* Data Visualization */
+    --chart-1: 220 70% 50%;
+    /* First chart color */
+    --chart-2: 160 60% 45%;
+    /* Second chart color */
+    --chart-3: 30 80% 55%;
+    /* Third chart color */
+    --chart-4: 280 65% 60%;
+    /* Fourth chart color */
+    --chart-5: 340 75% 55%;
+    /* Fifth chart color */
 
-		/* Component-Specific Colors */
-		--card: 0 0% 3.9%; /* Background color for cards */
-		--card-foreground: 0 0% 98%; /* Text color for cards */
+    /* Component-Specific Colors */
+    --card: 0 0% 3.9%;
+    /* Background color for cards */
+    --card-foreground: 0 0% 98%;
+    /* Text color for cards */
 
-		--popover: 0 0% 3.9%; /* Background color for popovers */
-		--popover-foreground: 0 0% 98%; /* Text color for popovers */
+    --popover: 0 0% 3.9%;
+    /* Background color for popovers */
+    --popover-foreground: 0 0% 98%;
+    /* Text color for popovers */
 
-		--sidebar-background: 240 5.9% 10%; /* Sidebar background color */
-		--sidebar-foreground: 240 4.8% 95.9%; /* Sidebar text color */
-		--sidebar-primary: 224.3 76.3% 48%; /* Primary color for sidebar elements */
-		--sidebar-primary-foreground: 0 0% 100%; /* Text color for primary sidebar elements */
-		--sidebar-accent: 240 3.7% 15.9%; /* Accent color in sidebar */
-		--sidebar-accent-foreground: 240 4.8% 95.9%; /* Text color for sidebar accents */
-		--sidebar-border: 240 3.7% 15.9%; /* Border color for sidebar */
-		--sidebar-ring: 217.2 91.2% 59.8%; /* Focus ring color for sidebar elements */
-	}
+    --sidebar-background: 240 5.9% 10%;
+    /* Sidebar background color */
+    --sidebar-foreground: 240 4.8% 95.9%;
+    /* Sidebar text color */
+    --sidebar-primary: 224.3 76.3% 48%;
+    /* Primary color for sidebar elements */
+    --sidebar-primary-foreground: 0 0% 100%;
+    /* Text color for primary sidebar elements */
+    --sidebar-accent: 240 3.7% 15.9%;
+    /* Accent color in sidebar */
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    /* Text color for sidebar accents */
+    --sidebar-border: 240 3.7% 15.9%;
+    /* Border color for sidebar */
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Focus ring color for sidebar elements */
+  }
 }
