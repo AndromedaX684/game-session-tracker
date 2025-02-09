@@ -22,6 +22,7 @@ export async function getGameSessionData(gameSessionId: string) {
 	const { data: gameSession, error: gameSessionError } = await supabase
 		.from("Game Sessions")
 		.select("*")
+		.order("created_at", { ascending: true })
 		.eq("id", gameSessionId)
 		.single();
 

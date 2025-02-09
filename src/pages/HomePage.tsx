@@ -17,7 +17,10 @@ function HomePage() {
 
 	useEffect(() => {
 		async function fetchGameSessions() {
-			const { data, error } = await supabase.from("Game Sessions").select("*");
+			const { data, error } = await supabase
+				.from("Game Sessions")
+				.select("*")
+				.order("created_at", { ascending: false });
 
 			if (error) {
 				console.error("Error fetching game sessions:", error);

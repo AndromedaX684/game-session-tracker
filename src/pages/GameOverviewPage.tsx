@@ -197,7 +197,7 @@ function GameOverviewPage() {
 								<CardDescription>Date: {gameSession.date}</CardDescription>
 							</div>
 							<div className="flex items-center gap-4">
-								<Button onClick={() => navigate(-1)}>Back</Button>
+								<Button onClick={() => navigate("/")}>Back</Button>
 								{gameId && (
 									<div>
 										<ScoreUpdateModal
