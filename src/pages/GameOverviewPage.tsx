@@ -295,7 +295,7 @@ function GameOverviewPage() {
 	const handleScoresUpdated = () => setIsScoresUpdated((prev) => !prev);
 
 	return (
-		<div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 h-[100dvh] overflow-auto bg-accent">
+		<div className="p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 h-[100dvh] overflow-auto bg-accent">
 			{/* Left Column: Game Info and Leaderboard */}
 			<div className="col-span-1 flex flex-col h-full">
 				<Card className="flex-grow">
@@ -361,11 +361,11 @@ function GameOverviewPage() {
 												key={reorderedPlayers[index].player_id}
 												className={`flex flex-col items-center justify-center p-4 rounded-lg bg-accent ${heightClass}`}
 											>
-												<div className="text-4xl break-words font-bold sm:text-2xl">
+												<div className="text-2xl break-words font-bold md:text-4xl">
 													{index === 0 ? 2 : index === 1 ? 1 : 3}
 												</div>
 												<div
-													className="text-2xl font-bold sm:text-xs"
+													className="text-xl font-bold md:text-2xl"
 													style={{
 														color:
 															playerColors[reorderedPlayers[index].player_id],
@@ -373,8 +373,11 @@ function GameOverviewPage() {
 												>
 													{reorderedPlayers[index].players.name}
 												</div>
-												<div className="flex items-center gap-1 sm:text-[10px] sm:flex-col">
-													<span>
+												<div className="flex gap-1 text-sm">
+													<span className="md:hidden">
+														{reorderedPlayers[index].total_score} p
+													</span>
+													<span className="hidden md:inline">
 														{reorderedPlayers[index].total_score} points
 													</span>
 													{rounds.length > 0 && (
@@ -383,7 +386,7 @@ function GameOverviewPage() {
 																getLastRoundDiff(item.player_id) >= 0
 																	? "text-green-500"
 																	: "text-red-500"
-															} text-xs`}
+															} text-[8px] md:text-xs`}
 														>
 															{getLastRoundDiff(item.player_id) >= 0 ? "+" : ""}
 															{getLastRoundDiff(item.player_id)}
@@ -413,7 +416,7 @@ function GameOverviewPage() {
 											{item.players.name}
 										</span>
 									</div>
-									<div className="flex items-center gap-1">
+									<div className="flex gap-1">
 										<span>{item.total_score} points</span>
 										{rounds.length > 0 && (
 											<span
@@ -421,7 +424,7 @@ function GameOverviewPage() {
 													getLastRoundDiff(item.player_id) >= 0
 														? "text-green-500"
 														: "text-red-500"
-												} text-xs`}
+												} text-[8px] md:text-xs`}
 											>
 												{getLastRoundDiff(item.player_id) >= 0 ? "+" : ""}
 												{getLastRoundDiff(item.player_id)}
