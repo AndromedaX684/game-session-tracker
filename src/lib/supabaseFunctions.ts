@@ -70,6 +70,47 @@ export async function getLeaderboardData(gameId: string) {
 	return data;
 }
 
+/**
+ * Fetch the latest round number for a given game session.
+ *
+ * @param gameSessionId - The ID of the game session.
+ * @returns The latest round number or null if no rounds are found.
+ */
+
+export const getLatestRound = async (
+	gameSessionId: string
+): Promise<number | null> => {
+	try {
+		console.log(`Fetching latest round for game session ${gameSessionId}`);
+
+		// Query the database for the latest round for the provided game session ID
+		const { data, error } = await supabase
+			.from("Scores")
+			.select("round")
+			.eq("game_session_id", gameSessionId) // Filter by the game session ID
+			.order("round", { ascending: false }) // Order by round number descending (latest first)
+			.limit(1); // Only get the latest round
+
+		if (error) {
+			console.error("Error fetching latest round:", error);
+			return null; // Return null in case of an error
+		}
+
+		// If no rounds are found, return null
+		if (data?.length === 0) {
+			console.log("No rounds found for this session.");
+			return null;
+		}
+
+		// Return the latest round number
+		console.log("Latest round data:", data);
+		return data[0].round;
+	} catch (error) {
+		console.error("Error fetching latest round:", error);
+		return null; // Return null in case of an error
+	}
+};
+
 export async function getScoresForRound(gameSessionId: string, round: number) {
 	const { data, error } = await supabase
 		.from("Scores")

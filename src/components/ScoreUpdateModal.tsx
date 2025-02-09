@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { updateScore, getScoresForRound } from "@/lib/supabaseFunctions";
+import {
+	updateScore,
+	getScoresForRound,
+	getLatestRound,
+} from "@/lib/supabaseFunctions"; // Assume you have a function to fetch the latest round
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,9 +29,20 @@ function ScoreUpdateModal({
 	players,
 	onScoresUpdated,
 }: ScoreUpdateModalProps) {
-	const [round, setRound] = useState(1);
+	const [round, setRound] = useState(1); // Default to round 1, will be updated on mount
 	const [scores, setScores] = useState<{ [playerId: string]: number }>({});
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+	// Fetch the latest round number when the modal is opened
+	useEffect(() => {
+		const fetchLatestRound = async () => {
+			const latestRound = await getLatestRound(gameSessionId); // Fetch latest round from the database
+			const nextRound = latestRound ? latestRound + 1 : 1; // If there's data, increment by 1, else start from round 1
+			setRound(nextRound); // Set the round state to next round
+		};
+
+		fetchLatestRound();
+	}, [gameSessionId]);
 
 	// Fetch scores for the current round from the database when the round changes
 	useEffect(() => {
@@ -40,11 +55,13 @@ function ScoreUpdateModal({
 			setScores(scoresObject);
 		};
 
-		fetchScores();
+		if (round > 1) {
+			fetchScores(); // Only fetch scores if round > 1
+		}
 	}, [round, gameSessionId]);
 
 	const handleScoreChange = (playerId: string, score: number) => {
-		setScores({ ...scores, [playerId]: score });
+		setScores((prevScores) => ({ ...prevScores, [playerId]: score }));
 	};
 
 	const handleSubmit = async () => {
@@ -60,7 +77,7 @@ function ScoreUpdateModal({
 			}
 
 			// Update the round number for the next submission
-			setRound(round + 1);
+			setRound((prevRound) => prevRound + 1);
 			setErrorMessage(null);
 			onScoresUpdated();
 		} catch (error) {
@@ -97,7 +114,7 @@ function ScoreUpdateModal({
 				</AlertDialogHeader>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-					{players.map((player, index) => (
+					{players.map((player) => (
 						<div key={player.id} className="flex flex-col items-center">
 							<label htmlFor={`score-${player.id}`} className="mb-2">
 								{player.name}:
@@ -110,7 +127,9 @@ function ScoreUpdateModal({
 								onChange={(e) =>
 									handleScoreChange(player.id, parseInt(e.target.value))
 								}
-								onKeyDown={(e) => handleEnterKeyPress(e, index)}
+								onKeyDown={(e) =>
+									handleEnterKeyPress(e, players.indexOf(player))
+								}
 								style={{
 									appearance: "none", // Ensure no arrows appear
 									WebkitAppearance: "none", // For webkit browsers
@@ -125,7 +144,10 @@ function ScoreUpdateModal({
 
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction onClick={handleSubmit}>
+					<AlertDialogAction
+						onClick={handleSubmit}
+						disabled={Object.keys(scores).length === 0}
+					>
 						Save Scores
 					</AlertDialogAction>
 				</AlertDialogFooter>
