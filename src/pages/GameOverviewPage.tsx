@@ -129,6 +129,15 @@ function GameOverviewPage() {
 		);
 	}, [scores]);
 
+	const getLastRoundDiff = (playerId: string) => {
+		const lastRound = Math.max(...rounds);
+		const lastRoundScore =
+			scores.find(
+				(score) => score.player_id === playerId && score.round === lastRound
+			)?.score || 0;
+		return lastRoundScore;
+	};
+
 	// Prepare data for the LineChart (score progression).
 	const chartData = useMemo(() => {
 		return {
@@ -167,11 +176,9 @@ function GameOverviewPage() {
 						dataset: { label: any };
 						raw: any;
 					}) {
-						const roundIndex = context.dataIndex; // Index for the current point
-						const playerId = context.dataset.label; // Player name
+						const roundIndex = context.dataIndex;
+						const playerId = context.dataset.label;
 						const round = rounds[roundIndex];
-
-						// Find the actual score for this round
 						const roundScore =
 							scores.find(
 								(score) =>
@@ -180,23 +187,22 @@ function GameOverviewPage() {
 									score.round === round
 							)?.score || 0;
 
-						return `${context.dataset.label}: ${context.raw} points (Round: +${roundScore})`;
+						const scoreColor =
+							roundScore >= 0 ? "color: #22c55e" : "color: #ef4444";
+						return `${context.dataset.label}: ${
+							context.raw
+						} points (Round: <span style="${scoreColor}">${
+							roundScore >= 0 ? "+" : ""
+						}${roundScore}</span>)`;
 					},
 				},
 			},
 			datalabels: {
-				align: "top", // Moves labels above the points
-				color: "#000", // Makes labels more visible
-				font: { weight: "bold" },
-				formatter: function (
-					_value: any,
-					context: { dataIndex: any; dataset: { label: any } }
-				) {
-					const roundIndex = context.dataIndex; // Index for the current point
-					const playerId = context.dataset.label; // Player name
+				align: "top",
+				color: (context: any) => {
+					const roundIndex = context.dataIndex;
+					const playerId = context.dataset.label;
 					const round = rounds[roundIndex];
-
-					// Get the raw score for the current round
 					const roundScore =
 						scores.find(
 							(score) =>
@@ -204,8 +210,21 @@ function GameOverviewPage() {
 									players.find((p) => p.name === playerId)?.id &&
 								score.round === round
 						)?.score || 0;
-
-					return `+${roundScore}`; // Display raw score for the round
+					return roundScore >= 0 ? "#22c55e" : "#ef4444";
+				},
+				font: { weight: "bold" },
+				formatter: function (value: any, context: any) {
+					const roundIndex = context.dataIndex;
+					const playerId = context.dataset.label;
+					const round = rounds[roundIndex];
+					const roundScore =
+						scores.find(
+							(score) =>
+								score.player_id ===
+									players.find((p) => p.name === playerId)?.id &&
+								score.round === round
+						)?.score || 0;
+					return roundScore >= 0 ? `+${roundScore}` : roundScore;
 				},
 			},
 		},
@@ -298,7 +317,7 @@ function GameOverviewPage() {
 											<div className="text-3xl font-bold">{player.name}</div>
 										</div>
 								  ))
-								: leaderboardData.slice(0, 3).map((_item, index) => {
+								: leaderboardData.slice(0, 3).map((item, index) => {
 										const reorderedPlayers = [
 											leaderboardData[1],
 											leaderboardData[0],
@@ -325,8 +344,22 @@ function GameOverviewPage() {
 												>
 													{reorderedPlayers[index].players.name}
 												</div>
-												<div className="text-lg">
-													{reorderedPlayers[index].total_score} points
+												<div className="flex items-center gap-2">
+													<span>
+														{reorderedPlayers[index].total_score} points
+													</span>
+													{rounds.length > 0 && (
+														<span
+															className={`${
+																getLastRoundDiff(item.player_id) >= 0
+																	? "text-green-500"
+																	: "text-red-500"
+															} text-xs`}
+														>
+															{getLastRoundDiff(item.player_id) >= 0 ? "+" : ""}
+															{getLastRoundDiff(item.player_id)}
+														</span>
+													)}
 												</div>
 											</div>
 										);
@@ -334,11 +367,11 @@ function GameOverviewPage() {
 						</div>
 
 						{/* Remaining Players */}
-						<ul>
+						<ul className="space-y-2">
 							{leaderboardData.slice(3).map((item, index) => (
 								<li
 									key={item.player_id}
-									className="flex items-center justify-between py-1 p-4"
+									className="flex items-center justify-between py-1 p-4 border rounded-md"
 								>
 									<div>
 										<span className="mr-2">{index + 4}.</span>
@@ -346,11 +379,26 @@ function GameOverviewPage() {
 											style={{
 												color: playerColors[item.player_id], // Only color the name
 											}}
+											className="text-lg font-bold"
 										>
 											{item.players.name}
 										</span>
 									</div>
-									<span>{item.total_score} points</span>
+									<div className="flex items-center gap-2">
+										<span>{item.total_score} points</span>
+										{rounds.length > 0 && (
+											<span
+												className={`${
+													getLastRoundDiff(item.player_id) >= 0
+														? "text-green-500"
+														: "text-red-500"
+												} text-xs`}
+											>
+												{getLastRoundDiff(item.player_id) >= 0 ? "+" : ""}
+												{getLastRoundDiff(item.player_id)}
+											</span>
+										)}
+									</div>
 								</li>
 							))}
 						</ul>
