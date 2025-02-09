@@ -15,7 +15,6 @@ import {
 	Title,
 	Tooltip,
 	Legend,
-	elements,
 } from "chart.js";
 import { LineChart } from "../features/charts/LineChart";
 import { BarChart } from "../features/charts/BarChart";
@@ -27,6 +26,7 @@ import {
 	CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 // Register required Chart.js components.
 ChartJS.register(
@@ -37,10 +37,10 @@ ChartJS.register(
 	BarElement,
 	Title,
 	Tooltip,
-	Legend
+	Legend,
+	ChartDataLabels
 );
 
-// Define your types (if not imported from a central types file)
 interface GameSession {
 	id: string;
 	name: string;
@@ -63,8 +63,6 @@ interface Score {
 interface LeaderboardItem {
 	player_id: string;
 	total_score: number;
-	// The function returns a JSON object for the player,
-	// so we access the player's name via item.players.name.
 	players: {
 		name: string;
 	};
@@ -84,7 +82,6 @@ function GameOverviewPage() {
 			if (!gameId) return;
 
 			try {
-				// Get the game session details.
 				const gameSessionData = await getGameSessionData(gameId);
 				if (gameSessionData) {
 					setGameSession(gameSessionData);
@@ -92,7 +89,6 @@ function GameOverviewPage() {
 					setScores(gameSessionData.scores);
 				}
 
-				// Get the leaderboard data via the Supabase RPC.
 				const leaderboard = await getLeaderboardData(gameId);
 				console.log("Raw leaderboard data:", leaderboard);
 				if (leaderboard) {
@@ -102,8 +98,8 @@ function GameOverviewPage() {
 				console.error("Error fetching game session data:", error);
 			}
 		}
+
 		fetchData();
-		setIsScoresUpdated(false);
 	}, [gameId, isScoresUpdated]);
 
 	// Calculate rounds from scores.
@@ -178,12 +174,14 @@ function GameOverviewPage() {
 	}, [leaderboardData]);
 
 	if (!gameSession) {
-		return <div>Loading...</div>;
+		return (
+			<div className="text-center text-xl font-bold mt-10">
+				Fetching game data...
+			</div>
+		);
 	}
 
-	const handleScoresUpdated = () => {
-		setIsScoresUpdated(true);
-	};
+	const handleScoresUpdated = () => setIsScoresUpdated((prev) => !prev);
 
 	return (
 		<div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 h-screen bg-accent">
@@ -199,7 +197,7 @@ function GameOverviewPage() {
 								<CardDescription>Date: {gameSession.date}</CardDescription>
 							</div>
 							<div className="flex items-center gap-4">
-								<Button onClick={() => navigate("/")}>Back</Button>
+								<Button onClick={() => navigate(-1)}>Back</Button>
 								{gameId && (
 									<div>
 										<ScoreUpdateModal
@@ -220,7 +218,7 @@ function GameOverviewPage() {
 					<CardContent>
 						{/* Top 3 Players */}
 						<div className="grid grid-cols-3 gap-4 mb-4 items-end">
-							{leaderboardData.slice(0, 3).map((item, index) => {
+							{leaderboardData.slice(0, 3).map((_item, index) => {
 								// Reorder: player 2 -> 1 -> 3 (index 0 = player 2, index 1 = player 1, index 2 = player 3)
 								const reorderedPlayers = [
 									leaderboardData[1],
@@ -296,6 +294,13 @@ function GameOverviewPage() {
 								maintainAspectRatio: false,
 								indexAxis: "y",
 								elements: { bar: { borderWidth: 2 } },
+								plugins: {
+									datalabels: {
+										anchor: "end",
+										align: "end",
+										formatter: (value: number) => value,
+									},
+								},
 							}}
 						/>
 					</CardContent>
