@@ -216,38 +216,48 @@ function GameOverviewPage() {
 						<CardDescription>Top players in this game session.</CardDescription>
 					</CardHeader>
 					<CardContent>
-						{/* Top 3 Players */}
 						<div className="grid grid-cols-3 gap-4 mb-4 items-end">
-							{leaderboardData.slice(0, 3).map((_item, index) => {
-								// Reorder: player 2 -> 1 -> 3 (index 0 = player 2, index 1 = player 1, index 2 = player 3)
-								const reorderedPlayers = [
-									leaderboardData[1],
-									leaderboardData[0],
-									leaderboardData[2],
-								];
-
-								// Set different heights based on the index (tallest for 1, then 2, then shortest for 3)
-								const heightClass =
-									index === 0 ? "h-38" : index === 1 ? "h-46" : "h-32"; // Adjust these values for your desired heights
-
-								return (
-									<div
-										key={reorderedPlayers[index].player_id}
-										className={`flex flex-col items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-700 ${heightClass}`}
-									>
-										<div className="text-2xl font-bold">
-											{index === 0 ? 2 : index === 1 ? 1 : 3}
-										</div>{" "}
-										{/* Reorder index display */}
-										<div className="text-3xl font-bold">
-											{reorderedPlayers[index].players.name}
+							{leaderboardData.length === 0
+								? // If there are no leaderboard data (no scores yet), just show players' names
+								  players.map((player) => (
+										<div
+											key={player.id}
+											className={`flex flex-col items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-700`}
+										>
+											<div className="text-3xl font-bold">{player.name}</div>
+											{/* Player's name */}
 										</div>
-										<div className="text-lg">
-											{reorderedPlayers[index].total_score}
-										</div>
-									</div>
-								);
-							})}
+								  ))
+								: // Render leaderboard data with scores if available
+								  leaderboardData.slice(0, 3).map((_item, index) => {
+										// Reorder: player 2 -> 1 -> 3 (index 0 = player 2, index 1 = player 1, index 2 = player 3)
+										const reorderedPlayers = [
+											leaderboardData[1],
+											leaderboardData[0],
+											leaderboardData[2],
+										];
+
+										const heightClass =
+											index === 0 ? "h-38" : index === 1 ? "h-46" : "h-32"; // Adjust these values for your desired heights
+
+										return (
+											<div
+												key={reorderedPlayers[index].player_id}
+												className={`flex flex-col items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-700 ${heightClass}`}
+											>
+												<div className="text-2xl font-bold">
+													{index === 0 ? 2 : index === 1 ? 1 : 3}
+												</div>{" "}
+												{/* Reorder index display */}
+												<div className="text-3xl font-bold">
+													{reorderedPlayers[index].players.name}
+												</div>
+												<div className="text-lg">
+													{reorderedPlayers[index].total_score}
+												</div>
+											</div>
+										);
+								  })}
 						</div>
 
 						{/* Remaining Players */}
