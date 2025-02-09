@@ -361,7 +361,7 @@ function GameOverviewPage() {
 											>
 												<div className="text-2xl font-bold">
 													{index === 0 ? 2 : index === 1 ? 1 : 3}
-												</div>{" "}
+												</div>
 												<div
 													className="text-3xl font-bold"
 													style={{
