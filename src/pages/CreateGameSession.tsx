@@ -149,24 +149,29 @@ function CreateGameSessionPage() {
 						</div>
 						<div className="mb-12">
 							<label>Players:</label>
-							{players.map((player, index) => (
-								<div key={index} className="flex items-center space-x-2">
-									<Input
-										type="text"
-										value={player}
-										onChange={(e) => handlePlayerChange(index, e.target.value)}
-										onKeyDown={(e) => handleKeyDown(index, e)}
-										ref={(el) => (playerInputRefs.current[index] = el!)}
-									/>
-									<Button
-										type="button"
-										onClick={() => handleRemovePlayer(index)}
-										variant="ghost"
-									>
-										<Trash2 size={18} />
-									</Button>
-								</div>
-							))}
+							<div className="space-y-2">
+								{players.map((player, index) => (
+									<div key={index} className="flex items-center">
+										<Input
+											type="text"
+											value={player}
+											onChange={(e) =>
+												handlePlayerChange(index, e.target.value)
+											}
+											onKeyDown={(e) => handleKeyDown(index, e)}
+											ref={(el) => (playerInputRefs.current[index] = el!)}
+										/>
+										<Button
+											type="button"
+											onClick={() => handleRemovePlayer(index)}
+											variant="ghost"
+										>
+											<Trash2 size={18} />
+										</Button>
+									</div>
+								))}
+							</div>
+
 							<Button type="button" onClick={handleAddPlayer} className="mt-2">
 								Add Player
 							</Button>
