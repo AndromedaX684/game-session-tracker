@@ -1,26 +1,21 @@
 import { supabase } from "./supabaseClient";
 
-interface GameSession {
-	id: string;
-	name: string;
-	date: string;
-}
+export async function createGameSession(name: string, date: Date) {
+	console.log("🔍 Sending data to Supabase:", { name, date });
 
-export async function createGameSession(
-	name: string,
-	date: Date
-): Promise<GameSession[] | null> {
 	const { data, error } = await supabase
 		.from("Game Sessions")
 		.insert([{ name, date }])
 		.select("*");
 
 	if (error) {
-		console.error("Error creating game session:", error);
+		console.error("❌ Error creating game session:", error);
+		alert("Failed to create game session. Check the console for details.");
 		return null;
 	}
 
-	return data as GameSession[];
+	console.log("✅ Game session created:", data);
+	return data;
 }
 
 export async function getGameSessionData(gameSessionId: string) {
@@ -97,19 +92,36 @@ export async function updateScore(
 
 export async function addPlayersToGameSession(
 	gameSessionId: string,
-	playerNames: string[]
+	players: string[] // an array of player names
 ) {
-	const players = playerNames.map((name) => ({
-		game_session_id: gameSessionId,
-		name,
-	}));
+	try {
+		if (!players || players.length === 0) {
+			console.error("No players provided to add.");
+			return null;
+		}
 
-	const { data, error } = await supabase.from("Players").insert(players);
+		console.log("Adding players:", players, "to game session:", gameSessionId);
 
-	if (error) {
-		console.error("Error adding players to game session:", error);
+		// Insert players into the "Players" table
+		const { data, error } = await supabase
+			.from("Players") // Assuming your table name is "Players"
+			.upsert(
+				players.map((player) => ({
+					game_session_id: gameSessionId,
+					name: player,
+				}))
+			)
+			.select("*");
+
+		if (error) {
+			console.error("Error inserting players:", error);
+			return null;
+		}
+
+		console.log("Players inserted:", data);
+		return data;
+	} catch (error) {
+		console.error("Unexpected error in addPlayersToGameSession:", error);
 		return null;
 	}
-
-	return data;
 }
