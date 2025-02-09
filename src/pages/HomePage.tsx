@@ -43,7 +43,7 @@ function HomePage() {
 	const sessionsToShow = showMore ? gameSessions : gameSessions.slice(0, 3);
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen">
+		<div className="flex flex-col items-center justify-center h-[100dvh]">
 			<h1 className="text-3xl font-bold mb-4">Game Session App!</h1>
 			<Card className="w-[400px]">
 				<CardHeader>
