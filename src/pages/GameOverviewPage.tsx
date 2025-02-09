@@ -295,7 +295,7 @@ function GameOverviewPage() {
 	const handleScoresUpdated = () => setIsScoresUpdated((prev) => !prev);
 
 	return (
-		<div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 h-screen bg-accent">
+		<div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 h-[100dvh] overflow-auto bg-accent">
 			{/* Left Column: Game Info and Leaderboard */}
 			<div className="col-span-1 flex flex-col h-full">
 				<Card className="flex-grow">
@@ -334,14 +334,14 @@ function GameOverviewPage() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="grid grid-cols-3 gap-4 mb-4 items-end ">
+						<div className="grid grid-cols-3 gap-4 mb-4 items-end sm:text-xs">
 							{leaderboardData.length === 0
 								? players.map((player) => (
 										<div
 											key={player.id}
 											className="flex flex-col items-center justify-center p-4 rounded-lg"
 										>
-											<div className="text-3xl font-bold text-center truncate md:text-md bg-accent flex flex-col items-center justify-center p-4 rounded-lg">
+											<div className="text-3xl font-bold text-center truncate bg-accent flex flex-col items-center justify-center p-4 rounded-lg">
 												{player.name}
 											</div>
 										</div>
@@ -361,11 +361,11 @@ function GameOverviewPage() {
 												key={reorderedPlayers[index].player_id}
 												className={`flex flex-col items-center justify-center p-4 rounded-lg bg-accent ${heightClass}`}
 											>
-												<div className="text-4xl break-words font-bold">
+												<div className="text-4xl break-words font-bold sm:text-2xl">
 													{index === 0 ? 2 : index === 1 ? 1 : 3}
 												</div>
 												<div
-													className="text-2xl font-bold"
+													className="text-2xl font-bold sm:text-xs"
 													style={{
 														color:
 															playerColors[reorderedPlayers[index].player_id],
@@ -373,7 +373,7 @@ function GameOverviewPage() {
 												>
 													{reorderedPlayers[index].players.name}
 												</div>
-												<div className="flex items-center gap-1">
+												<div className="flex items-center gap-1 sm:text-[10px] sm:flex-col">
 													<span>
 														{reorderedPlayers[index].total_score} points
 													</span>
