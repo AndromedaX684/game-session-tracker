@@ -104,12 +104,15 @@ function GameOverviewPage() {
 	// Colors for each player, based on their index in the players list.
 	const colors = useMemo(() => {
 		return [
-			"rgb(255, 99, 132)", // Red
-			"rgb(54, 162, 235)", // Blue
-			"rgb(255, 206, 86)", // Yellow
-			"rgb(75, 192, 192)", // Teal
-			"rgb(153, 102, 255)", // Purple
-			"rgb(255, 159, 64)", // Orange
+			"#FF758F", // pink from UI
+			"#4A9FFF", // bright blue
+			"#FFBB3B", // yellow/gold from rewards
+			"#8B5CF6", // purple
+			"#22D3EE", // cyan
+			"#F472B6", // light pink
+			"#60A5FA", // light blue
+			"#A78BFA", // light purple
+			"#38BDF8", // sky blue
 		];
 	}, []);
 
@@ -139,36 +142,60 @@ function GameOverviewPage() {
 	};
 
 	// Prepare data for the LineChart (score progression).
-	const chartData = useMemo(() => {
-		return {
+	const chartData = useMemo(
+		() => ({
 			labels: rounds.map((round) => `Round ${round}`),
 			datasets: players.map((player) => {
-				let cumulativeSum = 0; // Track cumulative score per player
+				let cumulativeSum = 0;
 				const playerData = rounds.map((round) => {
 					const scoreEntry = scores.find(
 						(score) => score.player_id === player.id && score.round === round
 					);
 					if (scoreEntry) {
-						cumulativeSum += scoreEntry.score; // Accumulate scores
+						cumulativeSum += scoreEntry.score;
 					}
-					return cumulativeSum; // For chart data: cumulative scores
+					return cumulativeSum;
 				});
 
 				const color = playerColors[player.id];
-
 				return {
 					label: player.name,
 					data: playerData,
 					borderColor: color,
 					backgroundColor: color,
+					borderWidth: 2,
 				};
 			}),
-		};
-	}, [rounds, players, scores, playerColors]);
+		}),
+		[rounds, players, scores, playerColors]
+	);
 
 	const chartOptions = {
 		maintainAspectRatio: false,
+		scales: {
+			x: {
+				grid: {
+					color: "rgba(255, 255, 255, 0.1)",
+				},
+				ticks: {
+					color: "#ffffff",
+				},
+			},
+			y: {
+				grid: {
+					color: "rgba(255, 255, 255, 0.1)",
+				},
+				ticks: {
+					color: "#ffffff",
+				},
+			},
+		},
 		plugins: {
+			legend: {
+				labels: {
+					color: "#ffffff",
+				},
+			},
 			tooltip: {
 				callbacks: {
 					label: function (context: {
@@ -186,19 +213,19 @@ function GameOverviewPage() {
 										players.find((p) => p.name === playerId)?.id &&
 									score.round === round
 							)?.score || 0;
-
-						const scoreColor =
-							roundScore >= 0 ? "color: #22c55e" : "color: #ef4444";
-						return `${context.dataset.label}: ${
-							context.raw
-						} points (Round: <span style="${scoreColor}">${
+						return `${context.dataset.label}: ${context.raw} points (Round: ${
 							roundScore >= 0 ? "+" : ""
-						}${roundScore}</span>)`;
+						}${roundScore})`;
 					},
 				},
 			},
 			datalabels: {
-				align: "top",
+				align: "left",
+				anchor: "end",
+				backgroundColor: "rgba(255, 255, 255, 0.8)",
+				offset: 5, // Moves labels further from points
+				borderRadius: 4,
+				padding: 4,
 				color: (context: any) => {
 					const roundIndex = context.dataIndex;
 					const playerId = context.dataset.label;
@@ -212,8 +239,8 @@ function GameOverviewPage() {
 						)?.score || 0;
 					return roundScore >= 0 ? "#22c55e" : "#ef4444";
 				},
-				font: { weight: "bold" },
-				formatter: function (value: any, context: any) {
+				font: { weight: "bold", size: "10px" },
+				formatter: function (_value: any, context: any) {
 					const roundIndex = context.dataIndex;
 					const playerId = context.dataset.label;
 					const round = rounds[roundIndex];
@@ -232,17 +259,12 @@ function GameOverviewPage() {
 
 	// Prepare data for the BarChart (total points per player).
 	const barChartData = useMemo(() => {
-		// We need to make sure the players are in the correct order here
-		const borderColors = leaderboardData.map((item) => {
-			const playerId = item.player_id;
-			return playerColors[playerId]; // Get the color for each player
-		});
-
-		const backgroundColors = borderColors.map(
-			(color) => color.replace("rgb", "rgba").replace(")", ", 0.8)") // Make background color semi-transparent
+		const borderColors = leaderboardData.map(
+			(item) => playerColors[item.player_id]
 		);
+		const backgroundColors = borderColors.map((color) => `${color}CC`);
 
-		const data = {
+		return {
 			labels: leaderboardData.map((item) => item.players?.name || ""),
 			datasets: [
 				{
@@ -250,11 +272,16 @@ function GameOverviewPage() {
 					data: leaderboardData.map((item) => item.total_score),
 					borderColor: borderColors,
 					backgroundColor: backgroundColors,
+					borderWidth: 2,
+					datalabels: {
+						color: "#ffffff",
+						font: { weight: "bold" },
+						align: "end",
+						anchor: "end",
+					},
 				},
 			],
 		};
-
-		return data;
 	}, [leaderboardData, playerColors]);
 
 	if (!gameSession) {
@@ -307,12 +334,12 @@ function GameOverviewPage() {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className="grid grid-cols-3 gap-4 mb-4 items-end">
+						<div className="grid grid-cols-3 gap-4 mb-4 items-end ">
 							{leaderboardData.length === 0
 								? players.map((player) => (
 										<div
 											key={player.id}
-											className={`flex flex-col items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-700`}
+											className={`flex flex-col items-center justify-center p-4 rounded-lg`}
 										>
 											<div className="text-3xl font-bold">{player.name}</div>
 										</div>
@@ -330,7 +357,7 @@ function GameOverviewPage() {
 										return (
 											<div
 												key={reorderedPlayers[index].player_id}
-												className={`flex flex-col items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-700 ${heightClass}`}
+												className={`flex flex-col items-center justify-center p-4 rounded-lg bg-accent ${heightClass}`}
 											>
 												<div className="text-2xl font-bold">
 													{index === 0 ? 2 : index === 1 ? 1 : 3}
@@ -371,7 +398,7 @@ function GameOverviewPage() {
 							{leaderboardData.slice(3).map((item, index) => (
 								<li
 									key={item.player_id}
-									className="flex items-center justify-between py-1 p-4 border rounded-md"
+									className="flex items-center justify-between py-1 p-4 border rounded-md bg-secondary"
 								>
 									<div>
 										<span className="mr-2">{index + 4}.</span>
@@ -428,12 +455,29 @@ function GameOverviewPage() {
 							options={{
 								maintainAspectRatio: false,
 								indexAxis: "y",
-								elements: { bar: { borderWidth: 2 } },
+								scales: {
+									x: {
+										grid: {
+											color: "rgba(255, 255, 255, 0.1)",
+										},
+										ticks: {
+											color: "#ffffff",
+										},
+									},
+									y: {
+										grid: {
+											color: "rgba(255, 255, 255, 0.1)",
+										},
+										ticks: {
+											color: "#ffffff",
+										},
+									},
+								},
 								plugins: {
-									datalabels: {
-										anchor: "end",
-										align: "end",
-										formatter: (value: number) => value,
+									legend: {
+										labels: {
+											color: "#ffffff",
+										},
 									},
 								},
 							}}
