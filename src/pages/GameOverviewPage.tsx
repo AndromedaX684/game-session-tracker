@@ -90,7 +90,6 @@ function GameOverviewPage() {
 				}
 
 				const leaderboard = await getLeaderboardData(gameId);
-				console.log("Raw leaderboard data:", leaderboard);
 				if (leaderboard) {
 					setLeaderboardData(leaderboard as LeaderboardItem[]);
 				}
@@ -101,6 +100,27 @@ function GameOverviewPage() {
 
 		fetchData();
 	}, [gameId, isScoresUpdated]);
+
+	// Colors for each player, based on their index in the players list.
+	const colors = useMemo(() => {
+		return [
+			"rgb(255, 99, 132)", // Red
+			"rgb(54, 162, 235)", // Blue
+			"rgb(255, 206, 86)", // Yellow
+			"rgb(75, 192, 192)", // Teal
+			"rgb(153, 102, 255)", // Purple
+			"rgb(255, 159, 64)", // Orange
+		];
+	}, []);
+
+	// Create a color mapping for players
+	const playerColors = useMemo(() => {
+		const colorMap: { [key: string]: string } = {};
+		players.forEach((player, index) => {
+			colorMap[player.id] = colors[index % colors.length];
+		});
+		return colorMap;
+	}, [players, colors]);
 
 	// Calculate rounds from scores.
 	const rounds = useMemo(() => {
@@ -120,17 +140,7 @@ function GameOverviewPage() {
 					);
 					return scoreEntry ? scoreEntry.score : 0;
 				});
-				const colors = [
-					"rgb(255, 99, 132)", // Red
-					"rgb(54, 162, 235)", // Blue
-					"rgb(255, 206, 86)", // Yellow
-					"rgb(75, 192, 192)", // Teal
-					"rgb(153, 102, 255)", // Purple
-					"rgb(255, 159, 64)", // Orange
-				];
-				const colorIndex =
-					players.findIndex((p) => p.id === player.id) % colors.length;
-				const color = colors[colorIndex];
+				const color = playerColors[player.id];
 				return {
 					label: player.name,
 					data: playerData,
@@ -139,24 +149,14 @@ function GameOverviewPage() {
 				};
 			}),
 		};
-	}, [rounds, players, scores]);
+	}, [rounds, players, scores, playerColors]);
 
 	// Prepare data for the BarChart (total points per player).
 	const barChartData = useMemo(() => {
-		const baseColors = [
-			"rgb(255, 99, 132)", // Red
-			"rgb(54, 162, 235)", // Blue
-			"rgb(255, 206, 86)", // Yellow
-			"rgb(75, 192, 192)", // Teal
-			"rgb(153, 102, 255)", // Purple
-			"rgb(255, 159, 64)", // Orange
-		];
-
-		// Convert colors to fully opaque for borderColor and 80% opacity for backgroundColor
-		const borderColors = baseColors.map((color) => color); // Full opacity (100%)
-		const backgroundColors = baseColors.map((color) =>
+		const borderColors = players.map((player) => playerColors[player.id]);
+		const backgroundColors = borderColors.map((color) =>
 			color.replace("rgb", "rgba").replace(")", ", 0.8)")
-		); // 80% opacity
+		);
 
 		const data = {
 			labels: leaderboardData.map((item) => item.players?.name || ""),
@@ -169,9 +169,8 @@ function GameOverviewPage() {
 				},
 			],
 		};
-		console.log("Bar chart data:", data);
 		return data;
-	}, [leaderboardData]);
+	}, [leaderboardData, playerColors]);
 
 	if (!gameSession) {
 		return (
@@ -225,19 +224,15 @@ function GameOverviewPage() {
 					<CardContent>
 						<div className="grid grid-cols-3 gap-4 mb-4 items-end">
 							{leaderboardData.length === 0
-								? // If there are no leaderboard data (no scores yet), just show players' names
-								  players.map((player) => (
+								? players.map((player) => (
 										<div
 											key={player.id}
 											className={`flex flex-col items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-700`}
 										>
 											<div className="text-3xl font-bold">{player.name}</div>
-											{/* Player's name */}
 										</div>
 								  ))
-								: // Render leaderboard data with scores if available
-								  leaderboardData.slice(0, 3).map((_item, index) => {
-										// Reorder: player 2 -> 1 -> 3 (index 0 = player 2, index 1 = player 1, index 2 = player 3)
+								: leaderboardData.slice(0, 3).map((_item, index) => {
 										const reorderedPlayers = [
 											leaderboardData[1],
 											leaderboardData[0],
@@ -255,12 +250,17 @@ function GameOverviewPage() {
 												<div className="text-2xl font-bold">
 													{index === 0 ? 2 : index === 1 ? 1 : 3}
 												</div>{" "}
-												{/* Reorder index display */}
-												<div className="text-3xl font-bold">
+												<div
+													className="text-3xl font-bold"
+													style={{
+														color:
+															playerColors[reorderedPlayers[index].player_id],
+													}}
+												>
 													{reorderedPlayers[index].players.name}
 												</div>
 												<div className="text-lg">
-													{reorderedPlayers[index].total_score}
+													{reorderedPlayers[index].total_score} points
 												</div>
 											</div>
 										);
@@ -274,10 +274,17 @@ function GameOverviewPage() {
 									key={item.player_id}
 									className="flex items-center justify-between py-1 p-4"
 								>
-									<span>
-										{index + 4}. {item.players.name}
-									</span>
-									<span>{item.total_score}</span>
+									<div>
+										<span className="mr-2">{index + 4}.</span>
+										<span
+											style={{
+												color: playerColors[item.player_id], // Only color the name
+											}}
+										>
+											{item.players.name}
+										</span>
+									</div>
+									<span>{item.total_score} points</span>
 								</li>
 							))}
 						</ul>
