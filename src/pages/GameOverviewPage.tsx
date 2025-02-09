@@ -295,9 +295,9 @@ function GameOverviewPage() {
 	const handleScoresUpdated = () => setIsScoresUpdated((prev) => !prev);
 
 	return (
-		<div className="p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 h-[100dvh] overflow-auto bg-accent">
+		<div className="p-4 grid grid-cols-1 lg:grid-cols-3 lg:gap-4 h-[100dvh] w-full overflow-auto bg-accent">
 			{/* Left Column: Game Info and Leaderboard */}
-			<div className="col-span-1 flex flex-col h-full">
+			<div className="flex flex-col h-full w-full pb-4 lg:pb-0">
 				<Card className="flex-grow">
 					<CardHeader>
 						<div className="flex justify-between">
