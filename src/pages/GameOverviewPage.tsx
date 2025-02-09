@@ -153,9 +153,14 @@ function GameOverviewPage() {
 
 	// Prepare data for the BarChart (total points per player).
 	const barChartData = useMemo(() => {
-		const borderColors = players.map((player) => playerColors[player.id]);
-		const backgroundColors = borderColors.map((color) =>
-			color.replace("rgb", "rgba").replace(")", ", 0.8)")
+		// We need to make sure the players are in the correct order here
+		const borderColors = leaderboardData.map((item) => {
+			const playerId = item.player_id;
+			return playerColors[playerId]; // Get the color for each player
+		});
+
+		const backgroundColors = borderColors.map(
+			(color) => color.replace("rgb", "rgba").replace(")", ", 0.8)") // Make background color semi-transparent
 		);
 
 		const data = {
@@ -169,6 +174,7 @@ function GameOverviewPage() {
 				},
 			],
 		};
+
 		return data;
 	}, [leaderboardData, playerColors]);
 
